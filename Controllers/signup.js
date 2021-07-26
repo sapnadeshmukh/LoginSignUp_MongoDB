@@ -17,28 +17,30 @@ const signup= async (req, res) => {
     if(validSchema.error){
         res.status(400).send(validSchema.error.details[0].message);
     }else{
+        console.log("data validate")
+    }try{
         const  salt=10;
         const hashPassword=await bcrypt.hash(req.body.password,salt)
-        const userDetails = await User.find({});
-        let i = 0;
-        for (i of userDetails) {
-            if (i["gmail"] == req.body.gmail ) {
-                break;
+        
+        const userDetails = await User.findOne({ gmail: req.body.gmail });
+        
+            if (userDetails != null){
+                console.log("exists")
+                return res.status(208).send({message:"email already exists."})
+            }else{
+                    const document = new User({
+                    username: req.body.username,
+                    password: hashPassword,
+                    gmail: req.body.gmail
+                    })
+                    const result = await document.save()
+                    console.log("You have Signup successfully")
+                    return res.status(200).send({message:"You have Signup successfully!!!"})
             }
-        } if (i["gmail"] == req.body.gmail ) {
-            console.log("email already exist.")
+    }catch(error){
+            return res.status(404).send(error)
 
-            return res.status(208).send({message:"email already exists."})
-        }else{
-                const jsPlaylist = new User({
-                username: req.body.username,
-                password: hashPassword,
-                gmail: req.body.gmail
-                })
-                const result = await jsPlaylist.save()
-                console.log("You have Signup successfully")
-                return res.status(200).send({message:"You have Signup successfully!!!"})
         }
-    }
+    
 }
 module.exports=signup

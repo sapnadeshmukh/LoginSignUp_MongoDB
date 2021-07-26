@@ -1,8 +1,8 @@
 const express=require("express")
 const router=express.Router()
 
-router.use('/',require('./loginRoute'))
-router.use('/',require('./signupRoute'))
-router.use("/",require('./userDataRoute'))
+router.use('/login',require('./loginRoute'))
+router.use('/signup',require('./signupRoute'))
+router.use('/users',require('./userDataRoute'))
 
 module.exports=router

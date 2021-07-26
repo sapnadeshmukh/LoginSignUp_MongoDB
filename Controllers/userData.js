@@ -14,8 +14,6 @@ const userData = async (req, res) => {
             message:"got data!!!",
             status:200,
             data: userDetails})
-
-
     }
 }
 

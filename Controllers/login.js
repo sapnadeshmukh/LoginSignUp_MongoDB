@@ -18,12 +18,12 @@ const login = async (req, res) => {
         const comparePassword = await bcrypt.compare(plainPassword, hashedPassword)
         if (comparePassword) {
             const data = { gmail: userDetails.gmail }
-            const token = jwtToken(data, process.env.SECRETKEY)
+            const createToken = jwtToken(data, process.env.SECRETKEY)
             // console.log(token)
             return res.status(200).send({
                 message: "You have logged in successfully!!!",
                 status: 200,
-                tokenData: token
+                tokenData: createToken
             })
         } else {
             console.log("Invalid user")
